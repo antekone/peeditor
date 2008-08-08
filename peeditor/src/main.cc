@@ -115,16 +115,23 @@ void dumping(Instance *inst) {
 				printf("%s", hdr);
 
 			cout << endl;
+			char *hdrl = (char*) "         Hint RVA        Offset     Value      Pointer    Api        ";
+			char api_name_buffer[80], *api_name_ptr;
 
 			for(vector<DLLImport*>::iterator i = im->dlls->begin(); i != im->dlls->end(); ++i) {
 				DLLImport *dll = *i;
 
 				pos = 0;
 				printf("\n  --- %s ---\n", dll->name.c_str());
-				char *hdrl = (char*) "         Hint RVA        Offset     Value      Pointer    Api        ";
 				printf("%s\n", hdrl);
 				for(vector<ImportFunction*>::iterator k = dll->functions->begin(); k != dll->functions->end(); ++k) {
 					ImportFunction *func = *k;
+
+					if(func->ordinal) {
+						 sprintf(api_name_buffer, "Import by ordinal: 0x%04X, %d", func->thunk_value, func->thunk_value);
+						 api_name_ptr = api_name_buffer;
+					} else
+						api_name_ptr = (char*) func->api_name.c_str();
 
 					//      lp   hint rva    offset value  api
 					printf("I %5d  %04X 0x%08X 0x%08X 0x%08X 0x%08X %s\n",
@@ -134,7 +141,7 @@ void dumping(Instance *inst) {
 							func->thunk_offset,
 							func->thunk_value,
 							func->thunk_ptr,
-							func->api_name.c_str());
+							api_name_ptr);
 				}
 
 				if(pos > 10)

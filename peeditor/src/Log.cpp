@@ -9,12 +9,9 @@
 #include "Log.hpp"
 
 Log::Log() {
-	// TODO Auto-generated constructor stub
-
 }
 
 Log::~Log() {
-	// TODO Auto-generated destructor stub
 }
 
 void Log::info(char *text) {

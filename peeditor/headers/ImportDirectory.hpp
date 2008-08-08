@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   ImportDirectory.hpp
  * Author: antek
  *
@@ -10,14 +10,12 @@
 
 class ImportFunction {
 public:
-	ulong thunk_rva;
-	uptr thunk_offset;
+	uptr thunk_rva, thunk_offset, thunk_ptr;
 	ulong thunk_value;
-	uptr thunk_ptr;
 	ushort hint;
 	string api_name;
 	bool inited, ordinal, bound;
-	
+
 	ImportFunction();
 	~ImportFunction();
 };
@@ -31,9 +29,9 @@ public:
 	ulong forwarder_chain;
 	ulong first_thunk, first_thunk_ptr;
 	ulong name_rva, name_ptr;
-	
+
 	vector<ImportFunction*> *functions;
-	
+
 	DLLImport();
 	~DLLImport();
 };
@@ -41,7 +39,7 @@ public:
 class ImportDirectory {
 public:
 	vector<DLLImport *> *dlls;
-	
+
 	ImportDirectory();
 	~ImportDirectory();
 };

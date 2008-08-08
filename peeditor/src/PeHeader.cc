@@ -271,13 +271,14 @@ void PeHeader::dd_imports(istream *input) {
 		}
 
 		while(true) {
+			uptr prev_offset = input->tellg();
 			input->read((char *) &thunk_data, sizeof(IMAGE_THUNK_DATA));
 			if(thunk_data.Function == 0)
 				break;
 
 			ImportFunction *func = new ImportFunction();
 
-			func->thunk_offset = input->tellg();
+			func->thunk_offset = prev_offset;
 
 			assert(func->thunk_offset != 0);
 			func->thunk_rva = rvac->rva_from_ptr(func->thunk_offset);
