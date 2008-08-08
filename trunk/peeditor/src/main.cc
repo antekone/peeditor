@@ -107,7 +107,7 @@ void dumping(Instance *inst) {
 						dll->name_rva,
 						dll->functions->size(),
 						dll->name.c_str(),
-						dll->time_date_stamp != -1? '*': ' '
+						(dll->time_date_stamp != ((ulong) -1))? '*': ' '
 						);
 			}
 
