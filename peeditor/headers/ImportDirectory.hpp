@@ -40,7 +40,8 @@ class ImportDirectory {
 public:
 	vector<DLLImport *> *dlls;
 
-	ImportDirectory();
+	ImportDirectory(RVAConverter *c, IMAGE_SECTION_HEADER **sec,
+			int n, istream *input, uptr rva, bool use_first_thunk);
 	~ImportDirectory();
 };
 
