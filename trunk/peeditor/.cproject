@@ -24,7 +24,7 @@
 <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.788908671" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 <option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1544635120" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1157388164" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-<option id="gnu.cpp.compiler.option.include.paths.462966313" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+<option id="gnu.cpp.compiler.option.include.paths.462966313" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/ped/headers}&quot;"/>
 </option>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.367454396" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -488,6 +488,9 @@
 <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.831817212" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
 <option id="gnu.cpp.compiler.exe.release.option.optimization.level.115971705" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.exe.release.option.debugging.level.1217560307" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+<option id="gnu.cpp.compiler.option.include.paths.635956373" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ped/headers}&quot;"/>
+</option>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1668405159" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.906337927" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
