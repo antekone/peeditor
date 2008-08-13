@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   MzHeader.hpp
  * Author: antek
  *
@@ -7,6 +7,8 @@
 
 #ifndef _MZHEADER_HPP
 #define	_MZHEADER_HPP
+
+#include "TraceCtx.hpp"
 
 struct MZ_HEADER {
 	ushort e_magic;
@@ -33,26 +35,30 @@ struct MZ_HEADER {
 
 class MzHeader {
 private:
+	bool tracing;
+	TraceCtx *trace_ctx;
+
+public:
 	MZ_HEADER *hdr;
 	byte *dos_stub;
 	uint dos_stub_size;
 	bool valid;
-	
-public:
-	MzHeader(istream*);
+
+	MzHeader(istream*, TraceCtx *);
 	virtual ~MzHeader();
-	
+
 	uptr get_e_lfanew();
-	
+
 	ushort get_e_magic();
-	
+
 	byte *get_dos_stub();
 	void set_dos_stub(byte*, uint);
 	uint get_dos_stub_size();
-	
+	bool has_dos_stub();
+
 	void invalidate();
 	bool is_valid();
-	
+
 	bool ok;
 };
 

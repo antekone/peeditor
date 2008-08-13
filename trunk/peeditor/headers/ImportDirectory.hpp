@@ -2,11 +2,13 @@
  * File:   ImportDirectory.hpp
  * Author: antek
  *
- * Created on 6 sierpieï¿½ 2008, 12:43
+ * Created on 6 sierpieñ 2008, 12:43
  */
 
 #ifndef _IMPORTDIRECTORY_HPP
 #define	_IMPORTDIRECTORY_HPP
+
+#include "TraceCtx.hpp"
 
 class ImportFunction {
 public:
@@ -37,12 +39,26 @@ public:
 };
 
 class ImportDirectory {
+private:
+	void ctor(RVAConverter *c, IMAGE_SECTION_HEADER **sc, int n,
+			istream *input, uptr rva, bool use_first_thunk);
+
+	TraceCtx *trace_ctx;
+	bool tracing;
 public:
 	vector<DLLImport *> *dlls;
 
+	uptr import_ptr;
+
+	// setup in PeHeader->dd_imports
+	string section_name;
+
 	ImportDirectory(RVAConverter *c, IMAGE_SECTION_HEADER **sec,
-			int n, istream *input, uptr rva, bool use_first_thunk);
+			int n, istream *input, uptr rva, bool use_first_thunk,
+			TraceCtx *trace);
 	~ImportDirectory();
+
+	void generate();
 };
 
 #endif	/* _IMPORTDIRECTORY_HPP */

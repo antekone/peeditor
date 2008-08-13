@@ -9,7 +9,7 @@ Instance::Instance() {
 }
 
 Instance::~Instance() {
-	
+
 }
 
 void Instance::set_mode(INSTANCE_MODE m) {
@@ -55,4 +55,20 @@ bool Instance::is_first_thunk() {
 
 void Instance::set_first_thunk(bool flag) {
 	use_first_thunk = flag;
+}
+
+void Instance::set_calc_addr(string addr) {
+	calc_addr = addr;
+}
+
+string Instance::get_calc_addr() {
+	return calc_addr;
+}
+
+void Instance::set_traced_address(string addr) {
+	traced_address = addr;
+}
+
+string Instance::get_traced_address() {
+	return traced_address;
 }
