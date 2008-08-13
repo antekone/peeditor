@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   types.hpp
  * Author: antek
  *
@@ -17,13 +17,23 @@ typedef unsigned char byte;
 #define null NULL
 #define emptystr ((string)"")
 
+#define TRACE_CTX(msg) if(tracing) trace_ctx->log(msg);
+#define RANGE_CHECK(stream,len) if(tracing) trace_ctx->range_check((stream),(len));
+
+const uint UINT_NOVALUE = 0xffffffff;
+
 enum INSTANCE_MODE {
-	USAGE, DUMPING, QUIT, SELFDIAG
+	USAGE, DUMPING, QUIT, SELFDIAG, CALC_RAW, CALC_RVA, ADDR_TRACE
+};
+
+enum NUMERIC_SYSTEM {
+	SYS_UNKNOWN, SYS_HEX, SYS_DEC, SYS_OCT, SYS_BIN
 };
 
 extern char *FATAL;
 extern char *WARNING;
 extern char *INFO;
+extern string _(string fmt, ...);
 
 enum {
 	IMAGE_FILE_MACHINE_I386 = 0x14C,
@@ -56,7 +66,7 @@ struct IMAGE_FILE_HEADER {
 	ulong PointerToSymbolTable;
 	ulong NumberOfSymbols;
 	ushort SizeOfOptionalHeader;
-	
+
 	union {
 		ushort word;
 		struct {

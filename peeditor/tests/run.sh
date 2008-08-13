@@ -17,4 +17,4 @@ if [ ! -x $PED ]; then
 	exit 1
 fi
   
-$PED $ARGS
+$PED $ARGS $@

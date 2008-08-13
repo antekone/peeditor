@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Structure.hpp
  * Author: antek
  *
@@ -17,15 +17,21 @@ private:
 	void parse();
 	void parse_mz();
 	bool use_first_thunk;
-	
+
+	TraceCtx *trace_ctx;
+	bool tracing;
+
 public:
-	Structure(istream*, bool);
+	Structure(istream*, bool, uint addr_trace = UINT_NOVALUE);
 	virtual ~Structure();
-	
+
 	MzHeader *mz;
 	PeHeader *pe;
-	
+
 	bool is_dll();
+
+	// header pointers.
+	bool hdr_ptrs();
 };
 
 #endif	/* _STRUCTURE_HPP */
