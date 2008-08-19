@@ -4,71 +4,71 @@
 
 Instance::Instance() {
 	this->working_mode = USAGE;
-	this->verbose = false;
-	this->use_first_thunk = false;
+	this->f_verbose = false;
+	this->f_use_first_thunk = false;
 }
 
 Instance::~Instance() {
 
 }
 
-void Instance::set_mode(INSTANCE_MODE m) {
+void Instance::mode(INSTANCE_MODE m) {
 	this->working_mode = m;
 }
 
-INSTANCE_MODE Instance::get_mode() {
+INSTANCE_MODE Instance::mode() {
 	return this->working_mode;
 }
 
-void Instance::set_input_file(string file) {
+void Instance::input_file(string file) {
 	auto_ptr<ifstream> ifs(new ifstream(file.c_str(), ifstream::in));
 	if(ifs->good()) {
-		this->input_file = file;
+		this->f_input_file = file;
 		ifs->close();
 	} else
-		this->input_file = emptystr;
+		this->f_input_file = emptystr;
 }
 
-string Instance::get_input_file() {
-	return this->input_file;
+string Instance::input_file() {
+	return this->f_input_file;
 }
 
-void Instance::set_dump_args(string args) {
-	dump_args = args;
+void Instance::dump_args(string args) {
+	f_dump_args = args;
 }
 
-string Instance::get_dump_args() {
-	return dump_args;
+string Instance::dump_args() {
+	return f_dump_args;
 }
 
-bool Instance::is_verbose() {
-	return verbose;
+bool Instance::verbose() {
+	return f_verbose;
 }
 
-void Instance::set_verbose(bool flag) {
-	verbose = flag;
+void Instance::verbose(bool flag) {
+	f_verbose = flag;
 }
 
-bool Instance::is_first_thunk() {
-	return use_first_thunk;
+bool Instance::first_thunk() {
+	return f_use_first_thunk;
 }
 
-void Instance::set_first_thunk(bool flag) {
-	use_first_thunk = flag;
+void Instance::first_thunk(bool flag) {
+	f_use_first_thunk = flag;
 }
 
-void Instance::set_calc_addr(string addr) {
-	calc_addr = addr;
+void Instance::calc_addr(string addr) {
+	f_calc_addr = addr;
 }
 
-string Instance::get_calc_addr() {
-	return calc_addr;
+string Instance::calc_addr() {
+	return f_calc_addr;
 }
 
-void Instance::set_traced_address(string addr) {
-	traced_address = addr;
+void Instance::traced_address(string addr) {
+	f_traced_address = addr;
 }
 
-string Instance::get_traced_address() {
-	return traced_address;
+string Instance::traced_address() {
+	return f_traced_address;
 }

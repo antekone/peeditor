@@ -12,33 +12,33 @@ class Instance {
 private:
 	/* properties */
 	INSTANCE_MODE working_mode;
-	string input_file;
-	string dump_args;
-	string calc_addr;
-	string traced_address;
-	bool verbose;
-	bool use_first_thunk;
+	string f_input_file;
+	string f_dump_args;
+	string f_calc_addr;
+	string f_traced_address;
+	bool f_verbose;
+	bool f_use_first_thunk;
 
 public:
 	Instance();
 	virtual ~Instance();
 
-	INSTANCE_MODE get_mode();
+	INSTANCE_MODE mode();
 
-	void set_mode(INSTANCE_MODE m);
-	void set_dump_args(string args);
-	void set_input_file(string file);
-	void set_verbose(bool);
-	void set_first_thunk(bool);
-	void set_calc_addr(string addr);
-	void set_traced_address(string addr);
+	void mode(INSTANCE_MODE m);
+	void dump_args(string args);
+	void input_file(string file);
+	void verbose(bool);
+	void first_thunk(bool);
+	void calc_addr(string addr);
+	void traced_address(string addr);
 
-	string get_input_file();
-	string get_dump_args();
-	string get_calc_addr();
-	string get_traced_address();
-	bool is_verbose();
-	bool is_first_thunk();
+	string input_file();
+	string dump_args();
+	string calc_addr();
+	string traced_address();
+	bool verbose();
+	bool first_thunk();
 };
 
 #endif	/* _INSTANCE_HPP */

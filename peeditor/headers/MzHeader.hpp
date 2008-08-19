@@ -53,8 +53,8 @@ public:
 
 	byte *get_dos_stub();
 	void set_dos_stub(byte*, uint);
-	uint get_dos_stub_size();
-	bool has_dos_stub();
+	uint stub_size();
+	bool has_stub();
 
 	void invalidate();
 	bool is_valid();

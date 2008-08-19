@@ -1,39 +1,66 @@
 /*
- * File:   types.hpp
- * Author: antek
+ * types.hpp
  *
- * Created on 21 lipiec 2008, 20:36
+ * This file is a part of PED.
+ * Written by antonone.
+ *
+ * This file is NOT 80-columns compilant. It's not 1980 anymore.
+ *
+ * Visit http://anadoxin.org/blog
  */
 
 #ifndef _TYPES_HPP
 #define	_TYPES_HPP
 
+// Some typedefs, to skip this long `unsigned' words ;).
 typedef unsigned short ushort;
 typedef unsigned long ulong;
 typedef unsigned int uint;
 typedef ulong uptr;
 typedef unsigned char byte;
 
+// Some preprocesor definitions, to make writing more convinient.
 #define null NULL
 #define emptystr ((string)"")
 
+// Tracing definitions. I know I could do it in a better way, maybe some day I'll
+// improve it.
 #define TRACE_CTX(msg) if(tracing) trace_ctx->log(msg);
 #define RANGE_CHECK(stream,len) if(tracing) trace_ctx->range_check((stream),(len));
 
+// -1 when using `unsigned' (uint) seems like invalid concept, (uint) -1 looks like
+// shit, so why not define eight f's to mark an invalid operation?
 const uint UINT_NOVALUE = 0xffffffff;
 
+// Enumeration of ped's modes. For use with ped's console frontend.
 enum INSTANCE_MODE {
 	USAGE, DUMPING, QUIT, SELFDIAG, CALC_RAW, CALC_RVA, ADDR_TRACE
 };
 
+// Enumeration of valid numeric systems.
 enum NUMERIC_SYSTEM {
 	SYS_UNKNOWN, SYS_HEX, SYS_DEC, SYS_OCT, SYS_BIN
 };
 
+// Junk. This strings are defined in main.cc. Externs below are written here because
+// I wanted to use these strings also from other .cc files, without redefining them.
+// Also I didn't want to use #defines, because #defines in most cases are a bad idea
+// (TRACE_CTX and RANGE_CHECK are a bad idea as well if you're wondering).
 extern char *FATAL;
 extern char *WARNING;
 extern char *INFO;
-extern string _(string fmt, ...);
+
+// A neat proc which will act as sprintf(), but operate on std::string. No more predicting
+// future when allocating memory for output buffer! :)
+extern string _(string fmt, ...); // (defined in Utils.cc)
+
+// Yeah, well, that's about it. Let's put a nice marker below to divide the intellectual
+// offspring (M$) of the devil himself (below) from my written thoughts (above).
+
+// --------------------------------------------------------------------------------------
+
+// Below are PE structures, based on what I could find on MSDN, masm32 includes, net, etc.
+// Some parts are changed to be more convinient to use.
 
 enum {
 	IMAGE_FILE_MACHINE_I386 = 0x14C,
@@ -133,7 +160,7 @@ struct IMAGE_SECTION_HEADER {
 		ulong PhysicalAddress;
 		ulong VirtualSize;
 	} Misc;
-	ulong VirtualAddress;
+	ulong VirtualAddress; // TODO check - rounded up to next 'SectionAlignment'?
 	ulong SizeOfRawData; // rounded up to next `FileAlignment`
 	ulong PointerToRawData;
 	ulong PointerToRelocations;
@@ -207,4 +234,3 @@ struct IMAGE_IMPORT_DESCRIPTOR {
 };
 
 #endif	/* _TYPES_HPP */
-

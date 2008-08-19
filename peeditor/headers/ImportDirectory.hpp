@@ -2,7 +2,7 @@
  * File:   ImportDirectory.hpp
  * Author: antek
  *
- * Created on 6 sierpieñ 2008, 12:43
+ * Created on 6 sierpien 2008, 12:43
  */
 
 #ifndef _IMPORTDIRECTORY_HPP
@@ -16,7 +16,7 @@ public:
 	ulong thunk_value;
 	ushort hint;
 	string api_name;
-	bool inited, ordinal, bound;
+	bool inited, ord, bound;
 
 	ImportFunction();
 	~ImportFunction();
@@ -26,11 +26,13 @@ class DLLImport {
 public:
 	string name;
 
-	ulong original_first_thunk, original_first_thunk_ptr;
-	ulong time_date_stamp;
-	ulong forwarder_chain;
-	ulong first_thunk, first_thunk_ptr;
+	ulong oft_rva, oft_ptr;
+	ulong ft_rva, ft_ptr;
+	ulong tstamp;
+	ulong fwd_chain;
 	ulong name_rva, name_ptr;
+
+	uptr *names; // will help in PeBuilder::pe_build().
 
 	vector<ImportFunction*> *functions;
 
@@ -46,9 +48,9 @@ private:
 	TraceCtx *trace_ctx;
 	bool tracing;
 public:
-	vector<DLLImport *> *dlls;
+	vector<DLLImport*> *dlls;
 
-	uptr import_ptr;
+	uptr directory_ptr, directory_rva;
 
 	// setup in PeHeader->dd_imports
 	string section_name;

@@ -34,12 +34,25 @@ public:
 
 	ulong ptr_from_rva(ulong rva);
 	ulong rva_from_ptr(ulong ptr);
+
 	bool check_overlaps(int&, int&);
 	bool same_section(uptr rva1, uptr rva2);
 	bool valid_rva(uptr rva);
 	bool valid_ptr(uptr ptr);
+	bool is_rva_mappable_to_ptr(uptr rva);
+	bool is_ptr_mappable_to_rva(uptr ptr);
+	bool is_header_rva(uptr rva);
+
 	IMAGE_SECTION_HEADER *get_section_for_rva(uptr rva);
 	IMAGE_SECTION_HEADER *get_section_for_ptr(uptr ptr);
+	IMAGE_SECTION_HEADER *get_smallest_va_section();
+	IMAGE_SECTION_HEADER *get_smallest_ptr_section();
+	IMAGE_SECTION_HEADER *get_biggest_va_section();
+	IMAGE_SECTION_HEADER *get_biggest_ptr_section();
+	uptr get_biggest_ptr();
+	uptr get_biggest_va();
+	uptr get_smallest_ptr();
+	uptr get_smallest_va();
 
 	// header pointers detected. file may be packed.
 	bool hdr_ptrs;

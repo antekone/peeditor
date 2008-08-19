@@ -1,8 +1,12 @@
 /*
+ *
  * Utils.cc
  *
- *  Created on: 2008-08-09
- *      Author: antek
+ * This file is a part of PED.
+ * Written by antonone.
+ *
+ * Visit http://anadoxin.org/blog
+ *
  */
 
 #include "ped.hpp"
@@ -110,6 +114,14 @@ bool Utils::traced_io_seek_beg(istream *input, uint pos, uint traced) {
 	uptr new_offset = pos;
 	input->seekg(pos, ios_base::beg);
 	return traced == new_offset;
+}
+
+uint Utils::align(uint value, uint align_val) {
+	if(value % align_val)
+		return value + align_val - (value % align_val);
+	else
+		// `value' already is properly aligned.
+		return value;
 }
 
 string _(string sfmt, ...) {

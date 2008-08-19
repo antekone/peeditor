@@ -4,35 +4,35 @@
 ExportDirectory::ExportDirectory(RVAConverter *c, IMAGE_SECTION_HEADER **sec,
 		int n, IMAGE_EXPORT_DIRECTORY *ed, istream *input, uptr export_rva,
 		TraceCtx *trace):
-			characteristics(ed->Characteristics),
+			traits(ed->Characteristics),
 			nbase(ed->nBase),
-			number_of_functions(ed->NumberOfFunctions),
-			number_of_names(ed->NumberOfNames)
+			funcs_sz(ed->NumberOfFunctions),
+			names_sz(ed->NumberOfNames)
 {
 	assert(input != NULL);
 
 	trace_ctx = trace;
 	tracing = trace_ctx != NULL;
 
-	uptr name_ptr = c->ptr_from_rva(ed->nName),
+	uptr lname_ptr = c->ptr_from_rva(ed->nName),
 			functions_ptr = c->ptr_from_rva(ed->AddressOfFunctions),
-			names_ptr = c->ptr_from_rva(ed->AddressOfNames),
-			ordinals_ptr = c->ptr_from_rva(ed->AddressOfNameOrdinals);
+			lnames_ptr = c->ptr_from_rva(ed->AddressOfNames),
+			ords_ptr = c->ptr_from_rva(ed->AddressOfNameOrdinals);
 
-	ptr_to_functions = functions_ptr;
-	ptr_to_names = names_ptr;
-	ptr_to_ordinals = ordinals_ptr;
-	ptr_to_name = name_ptr;
-	rva_to_functions = ed->AddressOfFunctions;
-	rva_to_names = ed->AddressOfNames;
-	rva_to_ordinals = ed->AddressOfNameOrdinals;
-	rva_to_name = ed->nName;
+	funcs_ptr = functions_ptr;
+	names_ptr = lnames_ptr;
+	ordinals_ptr = ords_ptr;
+	name_ptr = lname_ptr;
+	funcs_rva = ed->AddressOfFunctions;
+	names_rv = ed->AddressOfNames;
+	ordinals_rva = ed->AddressOfNameOrdinals;
+	name_rva = ed->nName;
 
 	// read name.
 	char *module_name = Alloc<char>::anew(33);
 
-	TRACE_CTX(_("Seeking to 0x%08X to read the module name (ptr taken from IMAGE_EXPORT_DIRECTORY).", name_ptr));
-	input->seekg(name_ptr, ios_base::beg);
+	TRACE_CTX(_("Seeking to 0x%08X to read the module name (ptr taken from IMAGE_EXPORT_DIRECTORY).", lname_ptr));
+	input->seekg(lname_ptr, ios_base::beg);
 
 	TRACE_CTX(_("Reading 32 bytes of module name at 0x%08X.", (uint) input->tellg()));
 	RANGE_CHECK(input, 32);
@@ -74,9 +74,9 @@ ExportDirectory::ExportDirectory(RVAConverter *c, IMAGE_SECTION_HEADER **sec,
 
 	assert(functions.size() == ed->NumberOfFunctions);
 
-	TRACE_CTX(_("Seeking to AddressOfNameOrdinals: 0x%08X and reading data needed to attach names to every export.", ordinals_ptr));
+	TRACE_CTX(_("Seeking to AddressOfNameOrdinals: 0x%08X and reading data needed to attach names to every export.", ords_ptr));
 	TRACE_CTX(_("NumberOfNames structure has %d entries.", ed->NumberOfNames));
-	input->seekg(ordinals_ptr, ios_base::beg);
+	input->seekg(ords_ptr, ios_base::beg);
 	for(int i = 0, len = ed->NumberOfNames; i < len; i++) {
 		ushort idx = 0;
 
@@ -92,9 +92,9 @@ ExportDirectory::ExportDirectory(RVAConverter *c, IMAGE_SECTION_HEADER **sec,
 	}
 
 	// resolve names
-	TRACE_CTX(_("Seeking to AddressOfNames structure at 0x%08X.", names_ptr));
+	TRACE_CTX(_("Seeking to AddressOfNames structure at 0x%08X.", lnames_ptr));
 	TRACE_CTX(_("Resolving function names for %d functions.", ed->NumberOfNames));
-	input->seekg(names_ptr, ios_base::beg);
+	input->seekg(lnames_ptr, ios_base::beg);
 	for(int i = 0, len = ed->NumberOfNames; i < len; i++) {
 		ulong name_rva, name_ptr;
 

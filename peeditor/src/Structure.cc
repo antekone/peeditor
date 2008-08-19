@@ -1,6 +1,7 @@
 #include "ped.hpp"
 
 #include "Structure.hpp"
+#include "Utils.hpp"
 
 Structure::Structure(istream *input, bool use_ft, uint addr_trace) {
 	this->input = input;
@@ -77,4 +78,25 @@ bool Structure::is_dll() {
 
 bool Structure::hdr_ptrs() {
 	return pe->rvac->hdr_ptrs;
+}
+
+// It's NOT for comparing with file's size. This proc doesn't take into consideration for example
+// the space after section headers and the first section.
+uint Structure::get_image_size() {
+	uint raw_size = sizeof(MZ_HEADER);
+
+	if(mz->has_stub())
+		raw_size += mz->dos_stub_size;
+
+	raw_size += 4; // IMAGE_NT_SIGNATURE
+	raw_size += sizeof(IMAGE_FILE_HEADER);
+	raw_size += sizeof(IMAGE_OPTIONAL_HEADER);
+	raw_size += Utils::align(sizeof(IMAGE_SECTION_HEADER) * pe->ifh->NumberOfSections, pe->ioh->FileAlignment);
+
+	for(int i = 0, size = pe->ifh->NumberOfSections; i < size; ++i) {
+		Section *sect = pe->sections_data[i];
+		raw_size += Utils::align(sect->rsz, pe->ioh->FileAlignment);
+	}
+
+	return raw_size;
 }
