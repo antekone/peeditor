@@ -20,21 +20,24 @@ public:
 	virtual ~Section();
 
 	string name;
-	ulong virtual_size;
-	ulong virtual_address;
-	ulong physical_address;
-	ulong size_of_raw_data;
-	ulong pointer_to_raw_data;
-	ulong pointer_to_relocations;
-	ulong pointer_to_linenumbers;
-	ushort number_of_relocations;
-	ushort number_of_linenumbers;
-	ulong characteristics;
+	ulong vsz; // VirtualSize
+	ulong va; // VirtualAddress
+	ulong physa; // PhysicalAddress, TODO only in object files?
+	ulong rsz; // SizeOfRawData
+	ulong raw; // PointerToRawData
+	ulong reloc_ptr; // PointerToRelocations
+	ulong lineno_ptr; // PointerToLinenumbers
+	ushort reloc_n; // NumberOfRelocations
+	ushort lineno_n; // NumberOfLinenumbers
+	ulong traits; // Characteristics
+	uptr file_ptr;
+
+	bool abstract;
 
 	IMAGE_SECTION_HEADER *orig;
 	byte *data;
 
-	void init(istream*, IMAGE_SECTION_HEADER *, TraceCtx *);
+	void init(istream *stream, IMAGE_SECTION_HEADER *ish, TraceCtx *trace_ctx, uptr file_pos);
 };
 
 #endif /* SECTION_HPP_ */

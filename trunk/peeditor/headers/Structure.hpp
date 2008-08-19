@@ -28,6 +28,8 @@ public:
 	MzHeader *mz;
 	PeHeader *pe;
 
+	uint get_image_size();
+
 	bool is_dll();
 
 	// header pointers.

@@ -11,7 +11,7 @@ MzHeader::MzHeader(istream *in, TraceCtx *trace) {
 
 	TRACE_CTX(_("Reading MZ header at 0x%08X.", (uint) in->tellg()));
 	RANGE_CHECK(in, sizeof(MZ_HEADER));
-	in->read(reinterpret_cast<char*>(hdr), sizeof(MZ_HEADER));
+	in->read((char *) hdr, sizeof(MZ_HEADER));
 
 	ushort magic;
 	if((magic = get_e_magic()) != 0x5a4d && magic != 0x4d5a) {
@@ -55,7 +55,7 @@ byte *MzHeader::get_dos_stub() {
 	return dos_stub;
 }
 
-uint MzHeader::get_dos_stub_size() {
+uint MzHeader::stub_size() {
 	return dos_stub_size;
 }
 
@@ -67,6 +67,6 @@ bool MzHeader::is_valid() {
 	return valid;
 }
 
-bool MzHeader::has_dos_stub() {
+bool MzHeader::has_stub() {
 	return dos_stub_size != UINT_NOVALUE;
 }

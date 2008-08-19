@@ -70,7 +70,12 @@ IMAGE_SECTION_HEADER *RVAConverter::get_section_for_rva(uptr rva) {
 	IMAGE_SECTION_HEADER *s = NULL;
 	for(int i = 0; i < n; i++) {
 		IMAGE_SECTION_HEADER *cs = sections_va[i];
-		if(rva >= cs->VirtualAddress && rva < (cs->VirtualAddress + cs->Misc.VirtualSize)) {
+		int size = cs->Misc.VirtualSize;
+
+		if(size > 0)
+			size--;
+
+		if(rva >= cs->VirtualAddress && rva <= (cs->VirtualAddress + size)) {
 			s = sections_va[i];
 			break;
 		}
@@ -100,17 +105,9 @@ IMAGE_SECTION_HEADER *RVAConverter::get_section_for_ptr(uptr ptr) {
 }
 
 ulong RVAConverter::ptr_from_rva(ulong rva) {
-	int help = 0;
 	assert(rva != 0);
 
-	// check if ptr points to somewhere in header, that is if ptr is smaller
-	// than the smallest PointerToRawData.
-	IMAGE_SECTION_HEADER *d = NULL;
-	for(d = sections_ptr[0]; !d->PointerToRawData; d = sections_ptr[++help])
-		assert(help < n);
-
-	assert(d != NULL);
-	if(rva < d->PointerToRawData) {
+	if(is_header_rva(rva)) {
 		hdr_ptrs = true;
 		return rva;
 	}
@@ -122,21 +119,108 @@ ulong RVAConverter::ptr_from_rva(ulong rva) {
 	return ofs;
 }
 
-ulong RVAConverter::rva_from_ptr(ulong ptr) {
-	int help = 0;
-	assert(ptr != 0);
+IMAGE_SECTION_HEADER *RVAConverter::get_smallest_va_section() {
+	assert(n > 0);
 
-	// check if ptr points to somewhere in header, that is if ptr is smaller
-	// than the smallest PointerToRawData.
+	int help = 0;
 	IMAGE_SECTION_HEADER *d = NULL;
-	for(d = sections_ptr[0]; !d->PointerToRawData; d = sections_ptr[++help])
+	for(d = sections_va[0]; !d->VirtualAddress; d = sections_va[++help])
 		assert(help < n);
 
 	assert(d != NULL);
+	return d;
+}
+
+IMAGE_SECTION_HEADER *RVAConverter::get_biggest_va_section() {
+	assert(n > 0);
+	return sections_va[n - 1];
+}
+
+IMAGE_SECTION_HEADER *RVAConverter::get_biggest_ptr_section() {
+	assert(n > 0);
+	return sections_ptr[n - 1];
+}
+
+IMAGE_SECTION_HEADER *RVAConverter::get_smallest_ptr_section() {
+	int help = 0;
+	IMAGE_SECTION_HEADER *d = NULL;
+	for(d = sections_ptr[0]; !d->PointerToRawData; d = sections_ptr[++help])
+		assert(help < n);
+	assert(d != NULL);
+	return d;
+}
+
+uptr RVAConverter::get_biggest_va() {
+	return get_biggest_va_section()->VirtualAddress;
+}
+
+uptr RVAConverter::get_biggest_ptr() {
+	return get_biggest_ptr_section()->PointerToRawData;
+}
+
+uptr RVAConverter::get_smallest_va() {
+	return get_smallest_va_section()->VirtualAddress;
+}
+
+uptr RVAConverter::get_smallest_ptr() {
+	return get_smallest_ptr_section()->PointerToRawData;
+}
+
+bool RVAConverter::is_rva_mappable_to_ptr(ulong rva) {
+	// check for header:
+	// if the pointer is smaller than smallest section's VA and RAW, it's mappable to header -- return true.
+	// if the pointer is smaller than smallest section's VA but bigger than RAW, it's unmappable -- return false.
+	IMAGE_SECTION_HEADER *d = get_smallest_va_section();
+	if(rva < d->VirtualAddress) {
+		if(rva < d->PointerToRawData) {
+			// pointer to header.
+			hdr_ptrs = true;
+			return true;
+		} else {
+			// pointer to first section -- impossible to convert.
+			return false;
+		}
+	} else {
+		// check for sections:
+		// get_section_for_rva should handle this case.
+		return get_section_for_rva(rva) != NULL;
+	}
+}
+
+bool RVAConverter::is_ptr_mappable_to_rva(ulong ptr) {
+	// check for header:
+	// if the ptr is smaller than smallest section's PTR, it's mappable to header -- return true.
+	IMAGE_SECTION_HEADER *d = get_smallest_ptr_section();
 	if(ptr < d->PointerToRawData) {
 		hdr_ptrs = true;
-		return ptr;
-	}
+		return true;
+	} else
+	// check for sections:
+	// get_section_for_ptr should do the trick.
+		return get_section_for_ptr(ptr) != NULL;
+}
+
+bool RVAConverter::is_header_rva(ulong rva) {
+	IMAGE_SECTION_HEADER *d = get_smallest_va_section();
+	// got a section with non zero VA.
+
+	// a good pointer should be smaller than Virtual Address, and smaller than SizeOfRawData. Then
+	// it's possible to map it to header: just return the rva - returns true.
+
+	// a good pointer is also when it's smaller than Virtual Address, and bigger than SizeOfRawData, but
+	// in this case it's impossible to convert it to file offset - returns true.
+
+	// when the pointer is bigger than this Virtual Address, then it's a part of this Section,
+	// so is_header_rva() returns false.
+	if(rva < d->VirtualAddress) {
+		hdr_ptrs = true;
+		return true;
+	} else
+		return false;
+}
+
+ulong RVAConverter::rva_from_ptr(ulong ptr) {
+	assert(ptr != 0);
 
 	IMAGE_SECTION_HEADER *s = get_section_for_ptr(ptr);
 	assert(s != NULL);
@@ -180,9 +264,9 @@ bool RVAConverter::same_section(uptr rva1, uptr rva2) {
 }
 
 bool RVAConverter::valid_rva(uptr rva) {
-	return get_section_for_rva(rva) != NULL;
+	return is_rva_mappable_to_ptr(rva);
 }
 
 bool RVAConverter::valid_ptr(uptr ptr) {
-	return get_section_for_ptr(ptr) != NULL;
+	return is_ptr_mappable_to_rva(ptr);
 }

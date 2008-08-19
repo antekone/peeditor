@@ -14,24 +14,38 @@ class PeBuilder {
 private:
 	Structure *s;
 
-	byte *mz_header;
+	// mz header.
+	byte *mzh;
 
-	byte *file_header;
-	byte *optional_header;
-	byte *section_descriptors;
-	ulong section_descriptors_len;
-	byte *section_data;
-	ulong section_data_len;
+	// file header.
+	byte *filehdr;
+
+	// optional header.
+	byte *opthdr;
+
+	// section descriptors (headers).
+	byte *secthdrs;
+
+	// section descriptors (headers) length.
+	ulong secthdrs_sz;
+
+	// section data (all sections).
+	byte *sectdata;
+	ulong sectdata_sz;
 
 	byte *imptbl;
-	uint imptblsz;
+	uint imptbl_sz;
 
-	void create_mz_header();
-	void create_pe_header();
-	void build_import_table();
-	uptr calc_e_lfanew(MzHeader *mzs);
+	void new_mz();
+	void new_pe();
+	void new_imptbl();
+	uptr get_pe_start_aligned(MzHeader *mzs);
+	uptr get_pe_start_unaligned(MzHeader *mzs);
 
-	uint get_it_size();
+	uint get_dll_names_sz();
+	uint get_all_names_sz();
+
+	ulong pe_start_delta;
 
 public:
 	PeBuilder(Structure *);

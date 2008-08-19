@@ -35,16 +35,16 @@ private:
 	bool tracing;
 
 public:
-	ulong characteristics;
+	ulong traits;
 	string nname;
 	ulong nbase;
-	ulong number_of_functions;
-	ulong number_of_names;
+	ulong funcs_sz;
+	ulong names_sz;
 
-	uptr ptr_to_functions, rva_to_functions;
-	uptr ptr_to_names, rva_to_names;
-	uptr ptr_to_ordinals, rva_to_ordinals;
-	uptr ptr_to_name, rva_to_name;
+	uptr funcs_ptr, funcs_rva;
+	uptr names_ptr, names_rv;
+	uptr ordinals_ptr, ordinals_rva;
+	uptr name_ptr, name_rva;
 	uptr directory_ptr, directory_rva;
 	ulong directory_size;
 
