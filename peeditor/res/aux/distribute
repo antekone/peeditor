@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# blackrazor
+
+if [ ! -f ped ]; then
+	echo "No ped binary here."
+	exit 1
+fi 
+
+if [ -z "`cat /etc/mtab | grep blackrazor`" ]; then
+	echo "Skipping, blackrazor is not mounted."
+else
+	if [ ! -d /nfs/blackrazor/dev/cpp/ped ]; then
+		echo "Installing environment on blackrazor..."
+		mkdir -p /nfs/blackrazor/dev/cpp/ped
+	fi
+
+	cp ped /nfs/blackrazor/dev/cpp/ped/ped -v
+fi
+

@@ -21,7 +21,7 @@ INSTANCE_MODE Instance::mode() {
 }
 
 void Instance::input_file(string file) {
-	auto_ptr<ifstream> ifs(new ifstream(file.c_str(), ifstream::in));
+	std::auto_ptr<ifstream> ifs(new ifstream(file.c_str(), ifstream::in));
 	if(ifs->good()) {
 		this->f_input_file = file;
 		ifs->close();
