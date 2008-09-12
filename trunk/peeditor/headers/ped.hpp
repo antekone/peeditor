@@ -9,7 +9,9 @@
 #define	_PED_HPP
 
 #include <stdlib.h>
+#include <stdarg.h> // va_start / va_end
 #include <unistd.h>
+#include <string.h>
 
 #include <iostream>
 #include <fstream>
@@ -18,6 +20,7 @@
 #include <cassert>
 #include <iomanip>
 #include <vector>
+#include <memory> // auto_ptr
 using namespace std;
 
 #include "types.hpp"
