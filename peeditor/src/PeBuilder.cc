@@ -108,7 +108,7 @@ void PeBuilder::new_mz() {
 		mz->e_lsarlc = get_pe_start_aligned(cmz);
 		mz->e_maxalloc = 0xffff;
 		mz->e_minalloc = 0;
-		mz->e_oemid = 0xa1; // ;)
+		mz->e_oemid = 0xa1;     // ;)
 		mz->e_oeminfo = 0xbabe; // ;)
 		mz->e_sp = 0xb8;
 		mz->e_ss = 0;
@@ -352,9 +352,8 @@ void PeBuilder::new_imptbl() {
 			int str_n = str.size();
 			const char *name = str.c_str();
 
-			mem = (uptr*) fa.alloc(str_n + 3, &membase); // + hint, zero byte
+			mem = (uptr*) fa.alloc(str_n + 3, &membase); // + hint (ushort) + zero byte
 			dlli->names[k] = membase;
-
 
 			memcpy((void *) mem, &func->hint, 2);
 			strncpy((char*) mem + 2, name, str_n);

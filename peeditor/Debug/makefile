@@ -38,7 +38,10 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: ped
+all: pre-build main-build
+
+# Main-build Target
+main-build: ped
 
 # Tool invocations
 ped: $(OBJS) $(USER_OBJS)
@@ -53,7 +56,11 @@ clean:
 	-$(RM) $(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) ped
 	-@echo ' '
 
+pre-build:
+	-./pre-build.sh
+	-@echo ' '
+
 .PHONY: all clean dependents
-.SECONDARY:
+.SECONDARY: main-build pre-build
 
 -include ../makefile.targets
