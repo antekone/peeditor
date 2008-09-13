@@ -39,7 +39,10 @@ private:
 	void new_mz();
 	void new_pe();
 	void new_imptbl();
+
 	uptr get_pe_start_aligned(MzHeader *mzs);
+
+	// Only for use with get_pe_start_aligned().
 	uptr get_pe_start_unaligned(MzHeader *mzs);
 
 	uint get_dll_names_sz();
