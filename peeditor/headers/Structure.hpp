@@ -25,6 +25,8 @@ public:
 	Structure(istream*, bool, uint addr_trace = UINT_NOVALUE);
 	virtual ~Structure();
 
+	bool ok;
+
 	MzHeader *mz;
 	PeHeader *pe;
 

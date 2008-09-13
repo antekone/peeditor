@@ -475,6 +475,8 @@ void PeHeader::section_to_csection(IMAGE_SECTION_HEADER *s, Section *cs) {
 }
 
 Section *PeHeader::add_section(string name, int size) {
+	assert(rvac != NULL);
+
 	struct IMAGE_SECTION_HEADER *usect = Alloc<IMAGE_SECTION_HEADER>::anew();
 	Section *nsect = new Section();
 

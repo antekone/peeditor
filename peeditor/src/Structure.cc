@@ -7,6 +7,7 @@ Structure::Structure(istream *input, bool use_ft, uint addr_trace) {
 	this->input = input;
 	use_first_thunk = use_ft;
 	trace_ctx = NULL;
+	ok = false;
 
 	if(addr_trace != UINT_NOVALUE)
 		trace_ctx = new TraceCtx(addr_trace);
@@ -66,6 +67,8 @@ void Structure::parse() {
 	if(hdr_ptrs()) {
 		cout << INFO << "Header pointers detected. File may be packed." << endl;
 	}
+
+	ok = true;
 }
 
 void Structure::parse_mz() {

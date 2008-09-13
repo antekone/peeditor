@@ -15,6 +15,12 @@ int tests(Instance *inst) {
 	auto_ptr<istream> ifs(file_stream);
 	auto_ptr<Structure> pe_file(new Structure(file_stream, inst->first_thunk()));
 	Structure *s = pe_file.get();
+	if(!s->ok) {
+		cout << "Exiting.\n";
+		return 1;
+	}
+
+
 	PeHeader *pe = s->pe;
 
 	Section *sec = pe->add_section(".new", 512);

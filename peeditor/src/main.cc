@@ -71,6 +71,9 @@ void dumping(Instance *inst) {
 	auto_ptr<Structure> aptr_structure(new Structure(file_stream, inst->first_thunk()));
 
 	Structure *s = aptr_structure.get();
+	if(!s->ok)
+		return;
+
 	PeHeader *pe = s->pe;
 
 	if(!pe->ok)
@@ -479,6 +482,8 @@ void addr_trace(Instance *inst) {
 
 	Structure *s = new Structure(file_stream, use_ft, addr_trace);
 	auto_ptr<Structure> pe_file(s);
+	if(!s->ok)
+		return;
 
 	PeHeader *pe = pe_file.get()->pe;
 	if(!pe->ok)
