@@ -61,8 +61,8 @@ void dumping(Instance *inst) {
 		return;
 	}
 
-	istream *file_stream = new ifstream(filename.c_str(), ifstream::in);
-	if(!((ifstream*) file_stream)->is_open()) {
+	ifstream *file_stream = new ifstream(filename.c_str(), ifstream::in);
+	if(!file_stream->is_open()) {
 		cout << FATAL << "Can't open specified file: " << filename << endl;
 		return;
 	}
