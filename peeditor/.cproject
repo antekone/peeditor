@@ -50,7 +50,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="res/aux/locatechar.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="test.exe|test.bin|iconv_exports.jpg|fsg_sections.jpg|fsg_imports.jpg|Debug/ped|Release/ped|Debug/src/Utils.d|Debug/src/TraceCtx.d|Debug/src/tests.d|Debug/src/Structure.d|Debug/src/Section.d|Debug/src/RVAConverter.d|Debug/src/PeHeader.d|Debug/src/PeBuilder.d|Debug/src/MzHeader.d|Debug/src/main.d|Debug/src/Log.d|Debug/src/Instance.d|Debug/src/ImportDirectory.d|Debug/src/FlatAlloc.d|Debug/src/ExportDirectory.d|Debug/src/Alloc.d|Debug/src/Utils.o|Debug/src/TraceCtx.o|Debug/src/tests.o|Debug/src/Structure.o|Debug/src/Section.o|Debug/src/RVAConverter.o|Debug/src/PeHeader.o|Debug/src/PeBuilder.o|Debug/src/MzHeader.o|Debug/src/main.o|Debug/src/Log.o|Debug/src/Instance.o|Debug/src/ImportDirectory.o|Debug/src/FlatAlloc.o|Debug/src/ExportDirectory.o|Debug/src/Alloc.o|res/aux/locatechar.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>
@@ -531,7 +531,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="res/aux/locatechar.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="test.exe|test.bin|iconv_exports.jpg|fsg_sections.jpg|fsg_imports.jpg|Debug/ped|Release/ped|Debug/src/Utils.d|Debug/src/TraceCtx.d|Debug/src/tests.d|Debug/src/Structure.d|Debug/src/Section.d|Debug/src/RVAConverter.d|Debug/src/PeHeader.d|Debug/src/PeBuilder.d|Debug/src/MzHeader.d|Debug/src/main.d|Debug/src/Log.d|Debug/src/Instance.d|Debug/src/ImportDirectory.d|Debug/src/FlatAlloc.d|Debug/src/ExportDirectory.d|Debug/src/Alloc.d|Debug/src/Utils.o|Debug/src/TraceCtx.o|Debug/src/tests.o|Debug/src/Structure.o|Debug/src/Section.o|Debug/src/RVAConverter.o|Debug/src/PeHeader.o|Debug/src/PeBuilder.o|Debug/src/MzHeader.o|Debug/src/main.o|Debug/src/Log.o|Debug/src/Instance.o|Debug/src/ImportDirectory.o|Debug/src/FlatAlloc.o|Debug/src/ExportDirectory.o|Debug/src/Alloc.o|res/aux/locatechar.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>
