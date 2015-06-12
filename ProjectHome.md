@@ -1,0 +1,1 @@
+As in summary. It is created to be able to run on Linux systems.
